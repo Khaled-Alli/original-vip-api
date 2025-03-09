@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'dealer'])->default('dealer');
+            $table->decimal('commission', 10, 2)->default(0);
             $table->timestamps();
         });
     }

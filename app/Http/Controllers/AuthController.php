@@ -15,6 +15,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
+            'commission' => 'nullable|numeric',
             'role' => 'nullable|string',
         ]);
 
@@ -22,6 +23,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'phone' => $validated['phone'],
             'password' => Hash::make($validated['password']),
+            'commission' => $validated['commission'], // Default commission
             'role' => $validated['role'], // Default role
         ]);
         $token = $user->createToken('token-name')->plainTextToken;
@@ -41,7 +43,8 @@ class AuthController extends Controller
         $user = User::where('phone', $validated['phone'])->first();
 
         if (!$user || !Hash::check($validated['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+            return response()->json([
+                'message' => 'خطأ فى كلمة المرور او رقم التليفون'], 401);
         }
            // Create a token for the user
         $token = $user->createToken('token-name')->plainTextToken;

@@ -24,6 +24,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
+            'commission' => 'numeric',
             'role' => 'required|in:admin,dealer', // Ensure role is either admin or dealer
         ]);
 
@@ -31,7 +32,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => $validated['name'],
             'phone' => $validated['phone'],
-            'password' => bcrypt($validated['password']), // Hash the password
+            'password' => bcrypt($validated['password']), 
+            'commission' => 0,
             'role' => $validated['role'],
         ]);
 
@@ -51,6 +53,7 @@ class UserController extends Controller
             'name' => 'string',
             'phone' => 'string|unique:users,phone,' . $user->id,
             'password' => 'string|min:6',
+            "commission" => 'numeric',
             'role' => 'in:admin,dealer',
         ]);
 
